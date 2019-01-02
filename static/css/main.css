@@ -17,7 +17,7 @@ body {
 body > main {
     color: #676867;
     margin: 0 auto;
-    width: 600px;
+    max-width: 600px;
 }
 
 body > main > div {
@@ -29,7 +29,8 @@ body > main > div:first-child > div {
 }
 
 body > main > div > div {
-    margin-bottom: 0.5em;
+    margin: 0.5em;
+    margin-top: 0;
     padding: 0.5em 1em;
 }
 
