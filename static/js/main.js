@@ -1,6 +1,6 @@
 const settings = {
     "command_sources": [
-        "/static/js/demo.js",
+        "./demo.js",
     ]
 };
 
