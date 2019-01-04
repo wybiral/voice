@@ -1,18 +1,20 @@
 /*
 This file is a set of demo commands and is meant to only be a proof of concept.
-The final implementation should retrieve commands from server so that they can
-be added/removed in a modular way.
 
 Commands are objects with the following methods:
     - match(text, voice) returns true/false if the text matches the command.
     - action(text, voice) performs the command action and returns a promise.
 */
-const COMMANDS = [
-    {   // NOP command.
+export function init(voice) {
+
+    // NOP command.
+    voice.addCommand({
         match: text => text === 'nevermind',
         action: async text => null
-    },
-    {   // Change the wake-up phrase.
+    });
+
+    // Change the wake-up phrase.
+    voice.addCommand({
         match: text => text == 'change phrase',
         action: async (text, voice) => {
             await voice.say("Okay. What should the new phrase be?");
@@ -22,8 +24,10 @@ const COMMANDS = [
             voice.phrase = phrase;
             return voice.say('Phrase changed to "' + phrase + '".');
         }
-    },
-    {   // Return the current time.
+    });
+
+    // Return the current time.
+    voice.addCommand({
         match: text => text === 'what time is it',
         action: async (text, voice) => {
             const d = new Date();
@@ -43,8 +47,10 @@ const COMMANDS = [
             const time = h + ':' + m + ' ' + ap;
             return voice.say('The time is ' + time + '.');
         }
-    },
-    {   // Return today's date.
+    });
+
+    // Return today's date.
+    voice.addCommand({
         match: text => {
             if (text == "what's today's date") {
                 return true;
@@ -85,8 +91,10 @@ const COMMANDS = [
             const today = weekday + ', ' + month + ' the ' + day;
             return voice.say('Today is ' + today + '.');
         }
-    },
-    {   // Listen to a knock-knock joke.
+    });
+
+    // Listen to a knock-knock joke.
+    voice.addCommand({
         match: text => text == 'knock knock',
         action: async (text, voice) => {
             let update;
@@ -112,5 +120,6 @@ const COMMANDS = [
                 "Okay... Is that supposed to be funny or something?",
             ]));
         }
-    },
-];
+    });
+
+}

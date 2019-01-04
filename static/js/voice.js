@@ -24,6 +24,13 @@ class Voice {
         scroll();
         return new Promise((resolve, reject) => {
             lastUtterance = new SpeechSynthesisUtterance(msg);
+            const voices = speechSynthesis.getVoices();
+            for (let i = 0; i < voices.length; i++) {
+                if (voices[i].name.includes('Google US')) {
+                    lastUtterance.voice = voices[i];
+                    break;
+                }
+            }
             lastUtterance.onend = evt => {
                 resolve(update);
             };

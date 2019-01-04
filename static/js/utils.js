@@ -38,15 +38,21 @@ function choice(arr) {
     return arr[(Math.random() * arr.length) | 0];
 }
 
-// Load script by source asynchronously.
-function loadScript(src) {
-    return new Promise((resolve, reject) => {
-        const s = document.createElement('script');
-        document.body.appendChild(s);
-        s.onload = resolve;
-        s.onerror = reject;
-        s.async = true;
-        s.src = src;
+// Load array of command sources, calling each .init(voice) method
+function loadSources(voice, sources) {
+    if (sources.length === 0) {
+        return Promise.resolve(null);
+    }
+    const s = sources[0];
+    sources = sources.slice(1);
+    return import(s).then(m => {
+        if (typeof m.init === 'function') {
+            m.init(voice);
+        }
+        return loadSources(voice, sources);
+    }).catch(e => {
+        createUpdate('Failed to load: ' + s, {type: 'info'});
+        return loadSources(voice, sources);
     });
 }
 

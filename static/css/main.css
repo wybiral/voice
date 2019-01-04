@@ -5,7 +5,7 @@
 
 html, body {
     background: #1e1e1e;
-    font-size: 110%;
+    font-size: 125%;
     height: 100%;
     width: 100%;
 }
@@ -17,7 +17,7 @@ body {
 body > main {
     color: #676867;
     margin: 0 auto;
-    max-width: 600px;
+    max-width: 800px;
 }
 
 body > main > div {
@@ -53,7 +53,11 @@ body > main > div.human {
 }
 
 body > main > div.info {
-    justify-content: center;
+    justify-content: flex-start;
+}
+
+body > main > div.info > div {
+    padding: 0;
 }
 
 #color-palette {
