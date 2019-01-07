@@ -19,7 +19,7 @@ export function init(voice, options) {
                 } else if (d.error === 'missing location') {
                     await voice.say("Weather commands require a valid location in settings.json file.");
                 } else {
-                    console.log(err);
+                    console.log(d.error);
                     await voice.say("Weather service unavailable.");
                 }
                 return;
