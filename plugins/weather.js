@@ -7,7 +7,12 @@ export function init(voice, options) {
         match: text => text.includes('weather') || text.includes('forecast'),
         action: async text => {
             const r = await fetch('/weather');
-            const d = await r.json();
+            let d;
+            try {
+                d = await r.json();
+            } catch(err) {
+                d = {'error': 'unable to parse JSON'};
+            }
             if ('error' in d) {
                 if (d.error === 'missing key') {
                     await voice.say("Weather commands require a valid API key in settings.json file.");
