@@ -5,7 +5,7 @@ Commands are objects with the following methods:
     - match(text, voice) returns true/false if the text matches the command.
     - action(text, voice) performs the command action and returns a promise.
 */
-export function init(voice) {
+export function init(voice, options) {
 
     // NOP command.
     voice.addCommand({

@@ -1,0 +1,14 @@
+{
+    "dark_sky_key": "",
+    "dark_sky_location": "",
+    "plugins": [
+        {
+            "file": "basic.js",
+            "options": {}
+        },
+        {
+            "file": "weather.js",
+            "options": {}
+        }
+    ]
+}

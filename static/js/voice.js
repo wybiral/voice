@@ -16,6 +16,8 @@ class Voice {
         this.phrase = 'Okay computer';
         // Array of commands
         this.commands = [];
+        // Called ahead of time to load voice list
+        speechSynthesis.getVoices();
     }
 
     // Have the computer say some text.
@@ -23,10 +25,12 @@ class Voice {
         const update = createUpdate(msg, {type: 'computer'});
         scroll();
         return new Promise((resolve, reject) => {
+            // Transform for natural speech
+            msg = msg.replace('.json', ' dot Jason');
             lastUtterance = new SpeechSynthesisUtterance(msg);
             const voices = speechSynthesis.getVoices();
             for (let i = 0; i < voices.length; i++) {
-                if (voices[i].name.includes('Google US')) {
+                if (voices[i].name === 'Google US') {
                     lastUtterance.voice = voices[i];
                     break;
                 }

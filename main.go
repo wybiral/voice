@@ -6,11 +6,11 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/gorilla/mux"
+	"./routes"
+	"./types"
 )
 
 func main() {
-	var err error
 	// Setup flags
 	var host string
 	flag.StringVar(&host, "host", "127.0.0.1", "Server Host")
@@ -20,17 +20,18 @@ func main() {
 	flag.StringVar(&certFile, "cert", "", "Path of TLS cert file (optional)")
 	var keyFile string
 	flag.StringVar(&keyFile, "key", "", "Path of TLS key file (optional)")
+	var settingsFile string
+	flag.StringVar(&settingsFile, "settings", "settings.json", "Path of settings.js file")
 	flag.Parse()
-	addr := fmt.Sprintf("%s:%d", host, port)
+	// Load settings
+	settings, err := types.LoadSettings(settingsFile)
+	if err != nil {
+		log.Fatal(err)
+	}
 	// Setup router
-	r := mux.NewRouter().StrictSlash(true)
-	// Serve index page
-	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, "index.html")
-	}).Methods("GET")
-	// Setup static file server
-	fs := http.FileServer(http.Dir("./static/"))
-	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", fs))
+	r := routes.Routes(settings)
+	// Create server
+	addr := fmt.Sprintf("%s:%d", host, port)
 	s := &http.Server{
 		Addr:    addr,
 		Handler: r,

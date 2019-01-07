@@ -45,13 +45,13 @@ function loadSources(voice, sources) {
     }
     const s = sources[0];
     sources = sources.slice(1);
-    return import(s).then(m => {
+    return import('../../plugins/' + s.file).then(m => {
         if (typeof m.init === 'function') {
-            m.init(voice);
+            m.init(voice, s.options);
         }
         return loadSources(voice, sources);
     }).catch(e => {
-        createUpdate('Failed to load: ' + s, {type: 'info'});
+        createUpdate('Failed to load: ' + s.file, {type: 'info'});
         return loadSources(voice, sources);
     });
 }
