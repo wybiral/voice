@@ -98,16 +98,15 @@ export function init(voice, options) {
         match: text => text == 'knock knock',
         action: async (text, voice) => {
             let update;
-            let who, punchline;
             while (text === 'knock knock') {
                 await voice.say("Who's there?");
                 update = createUpdate('...', {type: 'human'});
-                who = await voice.query();
-                update.innerText = who;
-                await voice.say('"' + who + '" who?');
+                text = await voice.query();
+                update.innerText = text;
+                await voice.say('"' + text + '" who?');
                 update = createUpdate('...', {type: 'human'});
                 text = await voice.query();
-                update.innerText = who;
+                update.innerText = text;
             }
             if (text === "orange you glad I didn't say banana") {
                 return voice.say('Wow! How original.');
