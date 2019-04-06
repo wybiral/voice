@@ -65,6 +65,7 @@ class Voice {
                     if (result === null) {
                         timeout = setTimeout(inner, 0);
                     } else {
+                        console.log(result);
                         resolve(result);
                     }
                 };

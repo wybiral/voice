@@ -70,7 +70,7 @@ function beep() {
 /*
 Create a visual update box in the main window.
 Options can include:
-    "type": "computer", "human", or "info".
+    "type": ("computer", "human", or "info")
 */
 function createUpdate(msg, options) {
     options = options || {};

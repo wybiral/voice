@@ -7,7 +7,6 @@ import (
 	"net/http"
 
 	"./routes"
-	"./types"
 )
 
 func main() {
@@ -23,19 +22,13 @@ func main() {
 	var settingsFile string
 	flag.StringVar(&settingsFile, "settings", "settings.json", "Path of settings.js file")
 	flag.Parse()
-	// Load settings
-	settings, err := types.LoadSettings(settingsFile)
-	if err != nil {
-		log.Fatal(err)
-	}
-	// Setup router
-	r := routes.Routes(settings)
-	// Create server
 	addr := fmt.Sprintf("%s:%d", host, port)
+	// Create server
 	s := &http.Server{
 		Addr:    addr,
-		Handler: r,
+		Handler: routes.Routes(),
 	}
+	var err error
 	// Start listening
 	if len(certFile) == 0 || len(keyFile) == 0 {
 		log.Println("Serving at http://" + addr)
