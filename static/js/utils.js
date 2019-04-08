@@ -39,20 +39,20 @@ function choice(arr) {
 }
 
 // Load array of command sources, calling each .init(voice) method
-function loadSources(voice, sources) {
+function loadCommands(voice, sources) {
     if (sources.length === 0) {
         return Promise.resolve(null);
     }
     const s = sources[0];
     sources = sources.slice(1);
-    return import('../../plugins/' + s.file).then(m => {
+    return import(s.file).then(m => {
         if (typeof m.init === 'function') {
             m.init(voice, s.options);
         }
-        return loadSources(voice, sources);
+        return loadCommands(voice, sources);
     }).catch(e => {
         createUpdate('Failed to load: ' + s.file, {type: 'info'});
-        return loadSources(voice, sources);
+        return loadCommands(voice, sources);
     });
 }
 

@@ -6,7 +6,7 @@ import (
 	"log"
 	"net/http"
 
-	"./routes"
+	"github.com/gorilla/mux"
 )
 
 func main() {
@@ -26,7 +26,7 @@ func main() {
 	// Create server
 	s := &http.Server{
 		Addr:    addr,
-		Handler: routes.Routes(),
+		Handler: routes(),
 	}
 	var err error
 	// Start listening
@@ -40,4 +40,18 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+// Create routes
+func routes() *mux.Router {
+	r := mux.NewRouter().StrictSlash(true)
+	// Serve index page
+	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "index.html")
+	}).Methods("GET")
+	// Setup static file server
+	r.PathPrefix("/static/").Handler(
+		http.StripPrefix("/static/", http.FileServer(http.Dir("./static/"))),
+	).Methods("GET")
+	return r
 }
