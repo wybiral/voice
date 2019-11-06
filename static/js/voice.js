@@ -25,16 +25,7 @@ class Voice {
         const update = createUpdate(msg, {type: 'computer'});
         scroll();
         return new Promise((resolve, reject) => {
-            // Transform for natural speech
-            msg = msg.replace('.json', ' dot Jason');
             lastUtterance = new SpeechSynthesisUtterance(msg);
-            const voices = speechSynthesis.getVoices();
-            for (let i = 0; i < voices.length; i++) {
-                if (voices[i].name === 'Google US') {
-                    lastUtterance.voice = voices[i];
-                    break;
-                }
-            }
             lastUtterance.onend = evt => {
                 resolve(update);
             };
@@ -59,20 +50,22 @@ class Voice {
                         clearTimeout(timeout);
                     }
                     result = evt.results[0][0].transcript;
+                    resolve(result);
                     rec.stop();
                 };
                 rec.onend = function() {
                     if (result === null) {
                         timeout = setTimeout(inner, 0);
-                    } else {
-                        console.log(result);
-                        resolve(result);
                     }
                 };
                 rec.onspeechend = function() {
                     rec.stop();
                 };
-                rec.start();
+                try {
+                    rec.start();
+                } catch(e) {
+                    createUpdate('ERROR: SpeechRecognition API unavailable.');
+                }
             }
             inner();
         });
