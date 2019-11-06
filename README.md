@@ -1,6 +1,6 @@
 # voice
 
-Demo: https://wybiral.github.io/voice/ (currently only works in Chrome, FireFox is waiting on [this issue](https://bugzilla.mozilla.org/show_bug.cgi?id=1248897))
+Demo: https://wybiral.github.io/voice/ (currently only works in Chrome and Firefox Nightly with speechrecognition flags enabled in about:config)
 
 This is a project to build an open source voice assistant, along the lines of Alexa or Google Assistant, except this one actually respects your privacy.
 
